@@ -6,7 +6,7 @@
 
 ## Sobre o projeto
 
-Coffee Delivery é uma página web (SPA) de catálogo e compra de cafés desenvolvida com ReactJs.
+Github BLog é uma página web (SPA) desenvolvida com ReactJs com uma lista e filtro de posts. A página busca estes posts pela API do Github.
 
 Este projeto é um dos desafios da trilha de React do Ignite - Rocketseat.
 
