@@ -1,112 +1,34 @@
-import { Container } from "../../components";
-import { PostHeader } from "./_components";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import { api } from "../../lib";
+import { PostType } from "../../@types";
+
+import { PostContent, PostHeader } from "./_components";
 
 export function Post() {
+  const { id } = useParams<{ id: string }>();
+
+  const [postDetails, setPostDetails] = useState<PostType>({} as PostType);
+  const [isLoading, setIsloading] = useState(true);
+
+  const fetchPostDetails = useCallback(async () => {
+    const response = await api.get(
+      `/repos/marcelopoars/ignite-github-blog/issues/${id}`
+    );
+
+    setPostDetails(response.data);
+    setIsloading(false);
+  }, [id]);
+
+  useEffect(() => {
+    fetchPostDetails();
+  }, [fetchPostDetails]);
+
   return (
     <>
-      <PostHeader />
-
-      <Container>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias omnis
-          doloribus corporis distinctio tempora asperiores sed maxime ipsum ab,
-          consequuntur, accusantium id dicta, corrupti possimus. Quos tempore
-          provident esse facere.
-        </p>
-      </Container>
+      <PostHeader {...postDetails} isLoading={isLoading} />
+      <PostContent content={postDetails.body} isLoading={isLoading} />
     </>
   );
 }

@@ -1,9 +1,14 @@
+import { PostType } from "../../../../@types";
+
 import {
   ArrowUpRightIcon,
-  BuildingIcon,
+  CalendarIcon,
+  CommentIcon,
   GithubIcon,
-  UserGroupIcon,
+  Spinner,
 } from "../../../../components";
+
+import { formatDistanceToNow } from "../../../../utils";
 
 import {
   Flex,
@@ -13,43 +18,56 @@ import {
   SocialMedia,
 } from "./styles";
 
-export function PostHeader() {
+type PostHeaderProps = PostType & {
+  isLoading: boolean;
+};
+
+export function PostHeader({
+  title,
+  created_at,
+  comments,
+  html_url,
+  isLoading,
+}: PostHeaderProps) {
   return (
     <PostHeaderContainer>
       <PostHeaderContent>
-        <Flex>
-          <Link to="/">
-            <ArrowUpRightIcon />
-            Voltar
-          </Link>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            <Flex>
+              <Link to="/">
+                <ArrowUpRightIcon />
+                Voltar
+              </Link>
 
-          <Link
-            to="https://github.com/marcelopoars"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ver no Github
-            <ArrowUpRightIcon />
-          </Link>
-        </Flex>
+              <Link to={html_url} target="_blank" rel="noopener noreferrer">
+                Ver no Github
+                <ArrowUpRightIcon />
+              </Link>
+            </Flex>
 
-        <h1>Boas páticas de acessibilidade na web</h1>
+            <h1>{title}</h1>
 
-        <SocialMedia>
-          <ul>
-            <li>
-              <GithubIcon />
-              marcelopoars
-            </li>
-            <li>
-              <BuildingIcon />
-              Há 1 dia
-            </li>
-            <li>
-              <UserGroupIcon />8 comentários
-            </li>
-          </ul>
-        </SocialMedia>
+            <SocialMedia>
+              <ul>
+                <li>
+                  <GithubIcon />
+                  marcelopoars
+                </li>
+                <li>
+                  <CalendarIcon />
+                  {formatDistanceToNow(created_at)}
+                </li>
+                <li>
+                  <CommentIcon />
+                  {comments} comentários
+                </li>
+              </ul>
+            </SocialMedia>
+          </>
+        )}
       </PostHeaderContent>
     </PostHeaderContainer>
   );

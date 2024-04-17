@@ -47,16 +47,29 @@ export const ProfileContent = styled.div`
   }
 `;
 
-export const Avatar = styled.img`
-  width: 6rem;
-  height: 6rem;
+export const Avatar = styled.div`
+  min-width: 6rem;
+  min-height: 6rem;
+  max-width: 6rem;
+  max-height: 6rem;
+
   margin-bottom: 0.5rem;
 
   border-radius: 0.5rem;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 
   @media screen and (min-width: 1024px) {
-    width: 9.25rem;
-    height: 9.25rem;
+    min-width: 9.25rem;
+    min-height: 9.25rem;
+    max-width: 9.25rem;
+    max-height: 9.25rem;
+
     margin-bottom: 0;
   }
 `;

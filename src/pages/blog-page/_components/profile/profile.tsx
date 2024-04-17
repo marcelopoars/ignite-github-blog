@@ -1,9 +1,15 @@
+import { useEffect, useState } from "react";
+
 import {
   ArrowUpRightIcon,
   BuildingIcon,
   GithubIcon,
+  Spinner,
   UserGroupIcon,
 } from "../../../../components";
+
+import { api } from "../../../../lib";
+
 import {
   Avatar,
   Bio,
@@ -13,42 +19,78 @@ import {
   SocialMedia,
 } from "./styles";
 
+interface UserType {
+  login: string;
+  avatar_url: string;
+  name: string;
+  bio: string;
+  company: string;
+  followers: number;
+}
+
 export function Profile() {
+  const [user, setUser] = useState<UserType>({} as UserType);
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function fetchUser() {
+    const response = await api.get("/users/marcelopoars");
+
+    setUser(response.data);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const { avatar_url, name, bio, company, login, followers } = user;
+
   return (
     <ProfileContainer>
       <ProfileContent>
-        <Avatar src="https://github.com/marcelopoars.png" alt="" />
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            <Avatar>
+              <img src={avatar_url} alt="Foto Marcelo Pereira" />
+            </Avatar>
 
-        <Bio>
-          <h1>Marcelo Pereira</h1>
-          <p>Frontend Developer and Instructor.</p>
+            <Bio>
+              <h1>{name}</h1>
+              <p>{bio}</p>
 
-          <SocialMedia>
-            <ul>
-              <li>
-                <GithubIcon />
-                marcelopoars
-              </li>
-              <li>
-                <BuildingIcon />
-                MP Software
-              </li>
-              <li>
-                <UserGroupIcon />
-                84 seguidores
-              </li>
-            </ul>
+              <SocialMedia>
+                <ul>
+                  <li>
+                    <GithubIcon />
+                    {login}
+                  </li>
 
-            <GithubLink
-              href="https://github.com/marcelopoars"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Github
-              <ArrowUpRightIcon />
-            </GithubLink>
-          </SocialMedia>
-        </Bio>
+                  {company && (
+                    <li>
+                      <BuildingIcon />
+                      {company}
+                    </li>
+                  )}
+                  <li>
+                    <UserGroupIcon />
+                    {followers} seguidores
+                  </li>
+                </ul>
+
+                <GithubLink
+                  href="https://github.com/marcelopoars"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Github
+                  <ArrowUpRightIcon />
+                </GithubLink>
+              </SocialMedia>
+            </Bio>
+          </>
+        )}
       </ProfileContent>
     </ProfileContainer>
   );
