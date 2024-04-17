@@ -6,7 +6,7 @@
 
 ## Sobre o projeto
 
-Github BLog é uma página web (SPA) desenvolvida com ReactJs com uma lista e filtro de posts. A página busca estes posts pela API do Github.
+Github Blog é uma página web (SPA) desenvolvida com ReactJs com uma lista e filtro de posts. A página busca estes posts pela API do Github.
 
 Este projeto é um dos desafios da trilha de React do Ignite - Rocketseat.
 
@@ -20,3 +20,9 @@ Este projeto é um dos desafios da trilha de React do Ignite - Rocketseat.
 - React Hook Form
 - Zod
 - Vercel
+
+## Deploy
+
+Este projeto foi publicado na **_Vercel_**.
+
+[Clique aqui para visitar a página](https://ignite-github-blog.marcelopereira.dev)
